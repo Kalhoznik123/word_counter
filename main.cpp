@@ -1,69 +1,26 @@
 #include <iostream>
-#include <algorithm>
-#include <numeric>
 #include <sstream>
-#include <iterator>
 #include <cctype>
-
-class WordCounter
-{
-private:
-    std::istream& in_;
+//#include <boost/program_options.hpp>
+#include "word_counter.h"
 
 
-public:
-    struct Data{
-        std::size_t chars{0};
-        std::size_t words{0};
-        std::size_t lines{0};
-    };
 
-    WordCounter(std::istream& in):in_(in) {}
+///todo
 
-    Data count (){
-
-        std::size_t chars{0};
-        std::size_t words{0};
-        std::size_t lines{0};
-
-        char prev_char = ' ';
-
-
-        char ch  = in_.get();
-
-        while(!in_.eof()) {
-
-
-            if(ch == '\n'){
-                ++lines;
-            }         
-
-            if(std::isalnum(prev_char)&&(ch == '\n' || ch == ' '))
-                ++words;
-
-            ++chars;
-            prev_char = ch;
-            ch  = in_.get();
-        }
-
-        if(std::isalnum(prev_char))
-            ++words;
-
-        return {chars,words,lines};
-
-    }
-
-};
+/// прикрутить выбор ключей
+/// добаить проверку на наличие пакета programm option
 
 
 
 int main()
 {
-    std::istringstream str("aa aa\na a\n");
+
+    std::istringstream str("aaa\n");
 
     WordCounter wc(str);
 
-    auto data = wc.count();
+    auto data = wc.AllCount();
 
     std::cout << data.lines <<' '<< data.words <<' '<< data.chars << '\n';
 
